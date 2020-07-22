@@ -44,7 +44,7 @@ class ScopedCacheStorage implements IStorage {
     return this._container[key].value;
   }
 
-  set<T>(key: string, value: T, options: CacheOptions): void {
+  set<T>(key: string, value: T, options?: CacheOptions): void {
     if (!this.has(key)) {
       this._container[key] = new CacheEntry(value, options);
     } else {

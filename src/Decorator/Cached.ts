@@ -6,6 +6,7 @@ type TypedDecoratorResult<T> = (target: any, propertyKey: string, descriptor: Ty
 
 type CachedOptions = {
   container?: IStorage;
+  containerOptions?: CachedOptions;
 };
 
 function Cached<T extends Function>(
@@ -24,6 +25,7 @@ function Cached<T extends Function>(
     }|undefined> = {};
 
     const _container = options ? options.container : undefined;
+    const _containerOptions = options ? options.containerOptions : undefined;
 
     descriptor.value = function(...args: any) {
 
@@ -53,7 +55,7 @@ function Cached<T extends Function>(
           throw new Error("Cannot cache value.");
         }
 
-        container.set(key, data);
+        container.set(key, data, _containerOptions);
         return data;
       }
 

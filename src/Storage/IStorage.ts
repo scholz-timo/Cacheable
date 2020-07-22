@@ -11,7 +11,7 @@ interface IStorage {
 
   get<T>(key: string): T;
 
-  set<T>(key: string, value: T, options: CacheOptions): void;
+  set<T>(key: string, value: T, options?: CacheOptions): void;
 
   unset(key: string): void;
 }
