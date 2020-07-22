@@ -1,0 +1,28 @@
+{
+    "name": "@omnifar/cachable",
+    "displayName": "Caching for methods",
+    "scripts": {
+        "test": "mocha",
+        "tdd": "mocha --watch",
+        "build": "tsc",
+        "prepublishOnly": "npm run build"
+    },
+    "license": "NONE",
+    "categories": [
+        "Other"
+    ],
+    "exports": {
+        "./": "./dist/"
+    },
+    "version": "0.0.1",
+    "dependencies": {},
+    "devDependencies": {
+        "@types/chai": "^4.2.11",
+        "@types/mocha": "^8.0.0",
+        "chai": "^4.2.0",
+        "mocha": "^8.0.1",
+        "ts-node": "^8.10.2",
+        "typescript": "^3.9.7",
+        "utility-types": "^3.10.0"
+    }
+}

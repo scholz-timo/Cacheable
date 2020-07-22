@@ -1,0 +1,12 @@
+Dockerfile
+.env
+.editorconfig
+
+README.MD
+tsconfig.json
+
+test/
+local-test/
+src/
+scripts/
+docs/
