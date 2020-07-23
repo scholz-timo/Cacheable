@@ -75,6 +75,6 @@ describe('Cache counter value', () => {
       // Step 5: Expect same result, since we cached it.
       expect(await test1.cachedFunction()).to.equal(0);
       expect(await test2.cachedFunction()).to.equal(0);
-    })
+    });
   });
 });
