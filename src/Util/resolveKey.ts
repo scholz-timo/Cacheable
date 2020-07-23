@@ -7,7 +7,7 @@ function resolveKey(key: KeyPropertyType, _default: string, args: any): string {
   }
 
   if (typeof key !== "function") {
-    return key;
+    return key + JSON.stringify(args);
   }
 
   const result = key(...args);
