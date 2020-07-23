@@ -19,11 +19,6 @@ function Cached<T extends Function>(
   return function (target: any, propertyKey: string, descriptor: TypedPropertyDescriptor<T>) {
     const __originalMethod__ = descriptor.value;
 
-    let promises: Record<string, {
-      promises: Array<[Function, Function]>; 
-      promise: Promise<any>
-    }|undefined> = {};
-
     const _container = options ? options.container : undefined;
     const _containerOptions = options ? options.containerOptions : undefined;
 
@@ -35,7 +30,7 @@ function Cached<T extends Function>(
       let container = _container;
 
       if (container === undefined) {
-        container = this.__contianer__ || new ScopedCacheStorage(__self);
+        container = __self.__container__ || new ScopedCacheStorage(__self);
       }
 
       const key = resolveKey(_key, `${this.name}_${propertyKey}`, args);
@@ -45,8 +40,8 @@ function Cached<T extends Function>(
         return container.get(key);
       }
 
-      if (promises[key] !== undefined) {
-        return new Promise((resolve, reject) => promises[key].promises.push([resolve, reject]));
+      if (container.has(`${key}_promises`)) {
+        return new Promise((resolve, reject) => ((container.get(`${key}_promises`) as any)).promises.push([resolve, reject]));
       }
 
       
@@ -66,21 +61,24 @@ function Cached<T extends Function>(
         return store(result);
       }
 
-      if (promises[key] === undefined) {
-        promises[key] = { promise: undefined, promises: [] };
+      if (!container.has(`${key}_promises`)) {
+        container.set(`${key}_promises`, {
+          promise: undefined,
+          promises: []
+        });
       }
 
       // We have a promised result.
 
       // Helper function, to make sure that only the latest promise will resolve/reject all the created promises.
-      const getPromises = () => promises[key].promise === result ? promises[key].promises : [];
+      const getPromises = () => container.has(`${key}_promises`) && (container.get(`${key}_promises`) as any).promise === result ? (container.get(`${key}_promises`) as any).promises : [];
 
       // We create a new promise.
       return new Promise((resolve, reject) => {
         result = result
         // Store the data.
         .then((...data) => store(data))
-        .then((...data) => {
+        .then((data) => {
           // Resolve all the promises.
           getPromises().forEach(([resolve]) => resolve(...data));
           return data;
@@ -91,15 +89,15 @@ function Cached<T extends Function>(
           return data;
         })
         .finally(() => {
-          if (promises[key].promise !== result) {
+          if (!container.has(`${key}_promises`) || (container.get(`${key}_promises`) as any).promise !== result ) {
             return;
           }
 
-          promises[key] = undefined;
+          container.unset(`${key}_promises`);
         });
 
-        promises[key].promise = result;
-        promises[key].promises.push([resolve, reject]);
+        (container.get(`${key}_promises`) as any).promise = result;
+        (container.get(`${key}_promises`) as any).promises.push([resolve, reject]);
       });
     } as any;
   }

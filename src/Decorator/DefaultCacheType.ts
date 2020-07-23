@@ -6,27 +6,28 @@ type ConstructorType = {
 };
 
 type CacheTypeOptions = {
-  container?: IStorage;
 }
 
 
-function DefaultCacheType<T extends ConstructorType>(Base: T, options?: CacheTypeOptions) {
-  class Genrated extends Base {
-
-    __contianer__ = options ? options.container : undefined;
-
-    constructor(...args: any[]) {
-      super(...args);
-
-      if (![null, undefined].includes(this.__contianer__)) {
-        return;
+function DefaultCacheType<T extends ConstructorType>(__container?: IStorage, options?: CacheTypeOptions): (base: T) => any {
+  return function (Base: T, options?: CacheTypeOptions) {
+    class Genrated extends Base {
+  
+      __container__ = __container ? __container : undefined;
+  
+      constructor(...args: any[]) {
+        super(...args);
+  
+        if (![null, undefined].includes(this.__container__)) {
+          return;
+        }
+  
+        this.__container__ = new ScopedCacheStorage(this);
       }
-
-      this.__contianer__ = new ScopedCacheStorage(this);
     }
+  
+    return Genrated;
   }
-
-  return Genrated;
 }
 
 export default DefaultCacheType;
