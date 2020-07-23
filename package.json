@@ -1,6 +1,6 @@
 {
     "name": "@scholz-timo/cacheable",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "repository": {
        "type": "git",
        "url": "git+https://github.com/scholz-timo/Cacheable"
@@ -23,9 +23,9 @@
         "Other"
     ],
     "exports": {
-        "./": "./dist/index.js"
+        "./": "./dist/",
+        ".": "./dist/index.js"
     },
-    "main": "./dist/",
     "dependencies": {},
     "devDependencies": {
         "@types/chai": "^4.2.11",
