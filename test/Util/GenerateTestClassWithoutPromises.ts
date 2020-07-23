@@ -1,20 +1,20 @@
 import { ClearCached, Cached } from '../../src';
 
 
-function GenerateTestClassWithoutPromises() {
+function GenerateTestClassWithoutPromises(key: any = "test") {
 
   class TestClass {
 
     static counter: number = 0;
 
-    @Cached("test")
+    @Cached(key)
     cachedFunction() {
       const result = TestClass.counter;
       TestClass.counter += 1;
       return result;
     }
 
-    @ClearCached("test")
+    @ClearCached(key)
     uncache() {}
   }
 
