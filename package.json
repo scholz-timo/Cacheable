@@ -1,6 +1,10 @@
 {
-    "name": "cachable",
-    "displayName": "Caching for methods",
+    "name": "@scholz-timo/cacheable",
+    "version": "0.0.1",
+    "repository": {
+       "type": "git",
+       "url": "ssh://git@github.com/scholz-timo/Cacheable"
+    },
     "scripts": {
         "test": "mocha",
         "tdd": "mocha --watch",
@@ -14,7 +18,6 @@
     "exports": {
         "./": "./dist/"
     },
-    "version": "0.0.1",
     "dependencies": {},
     "devDependencies": {
         "@types/chai": "^4.2.11",
