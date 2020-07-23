@@ -22,10 +22,8 @@
     "categories": [
         "Other"
     ],
-    "exports": {
-        "./": "./dist/",
-        ".": "./dist/index.js"
-    },
+    "main": "./dist/index.js",
+    "exports": "./dist/index.js",
     "dependencies": {},
     "devDependencies": {
         "@types/chai": "^4.2.11",
