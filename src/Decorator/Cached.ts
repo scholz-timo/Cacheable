@@ -77,16 +77,15 @@ function Cached<T extends Function>(
       return new Promise((resolve, reject) => {
         result = result
         // Store the data.
-        .then((...data) => store(data))
+        .then((data) => store(data))
         .then((data) => {
           // Resolve all the promises.
-          getPromises().forEach(([resolve]) => resolve(...data));
+          getPromises().forEach(([resolve]) => resolve(data));
           return data;
         })
-        .catch((...data) => {
+        .catch((err) => {
           // Reject all the promises.
-          getPromises().forEach(([, reject]) => reject(...data));
-          return data;
+          getPromises().forEach(([, reject]) => reject(err));
         })
         .finally(() => {
           if (!container.has(`${key}_promises`) || (container.get(`${key}_promises`) as any).promise !== result ) {

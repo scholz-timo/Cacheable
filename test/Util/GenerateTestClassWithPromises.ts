@@ -2,7 +2,7 @@ import { Test } from "mocha";
 import { Cached, ClearCached } from "../../src";
 import GenerateTestClassWithoutPromises from "./GenerateTestClassWithoutPromises";
 
-function GenerateTestClassWithPromises() {
+function GenerateTestClassWithPromises(key: any = "test") {
 
   class TestClass {
 
@@ -21,7 +21,7 @@ function GenerateTestClassWithPromises() {
       return [this.promise, this.resolveOrReject];
     }
 
-    @Cached('test')
+    @Cached(key)
     async cachedFunction() {
 
       await this.ensurePromise()[0];
@@ -46,7 +46,7 @@ function GenerateTestClassWithPromises() {
       this.resolveOrReject = undefined;
     }
 
-    @ClearCached("test")
+    @ClearCached(key)
     uncache() {}
   }
 
