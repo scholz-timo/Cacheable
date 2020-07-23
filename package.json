@@ -1,5 +1,5 @@
 {
-    "name": "@omnifar/cachable",
+    "name": "cachable",
     "displayName": "Caching for methods",
     "scripts": {
         "test": "mocha",
