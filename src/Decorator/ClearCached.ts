@@ -33,13 +33,16 @@ function ClearCached<T extends Function>(
 
       const hasKey = container.has(key);
 
+      let result = undefined;
       if (hasKey || _options.runIfCacheIsCleared) {
-        return method();
+        result = method();
       }
 
       if (hasKey) {
         container.unset(key);
       }
+
+      return result;
     } as any;
   }
 }
